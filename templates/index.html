@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECDSA Digital Signature Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/">ECDSA Tool</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>ECDSA Digital Signature Tool</h1>
+
+        <!-- Key Generation Section -->
+        <section id="key-generation">
+            <h2>Key Generation</h2>
+            <button id="generateKeys">Generate Keys</button>
+            <p id="keyStatus"></p>
+        </section>
+
+        <!-- Sign Message Section -->
+        <section id="sign-message">
+            <h2>Sign Message</h2>
+            <textarea id="message" placeholder="Enter your message to sign"></textarea>
+            <button id="signMessage">Sign Message</button>
+            <h3>Signature:</h3>
+            <textarea id="signatureResult" readonly placeholder="Signature will appear here"></textarea>
+        </section>
+
+        <!-- Verify Signature Section -->
+        <section id="verify-signature">
+            <h2>Verify Signature</h2>
+            <textarea id="verifyMessage" placeholder="Enter message to verify"></textarea>
+            <textarea id="signatureInput" placeholder="Enter the signature to verify"></textarea>
+            <button id="verifySignature">Verify Signature</button>
+            <p id="verificationResult"></p> <!-- Message indicating valid/invalid signature -->
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
