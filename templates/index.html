@@ -1,4 +1,12 @@
-<div class="ecdsa-tool container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECDSA Digital Signature Tool</title>
+</head>
+<body>
+    <div class="ecdsa-tool container">
     <h2 class="tool-heading">
         ECDSA <span id="curveLabel">P-384 Curve</span>
     </h2>
@@ -25,8 +33,7 @@
         <button id="verifySignature">Verify Signature</button>
         <p id="verificationResult"></p>
     </section>
-</div>
-
+    </div>
 <style>
 /* Scope everything inside .ecdsa-tool */
 .ecdsa-tool section {
@@ -70,3 +77,6 @@
     color: #444;
 }
 </style>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
