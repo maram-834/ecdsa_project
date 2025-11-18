@@ -1,53 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECDSA Digital Signature Tool</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav id="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/p256">p-256 Curve</a></li>
-            <li><a href="/p384">p-384 Curve</a></li>
-            <li><a href="/p521">p-521 Curve</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-    </nav>
+<div class="ecdsa-tool container">
+    <h2 class="tool-heading">
+        ECDSA <span id="curveLabel">P-256 Curve</span>
+    </h2>
 
-    <div class="container">
-        <h1>P256 Curve ECDSA Tool</h1>
+    <section>
+        <h3>Key Generation</h3>
+        <button id="generateKeys">Generate Keys</button><br><br>
+        <p id="keyStatus"></p>
+    </section>
 
-        <!-- Key Generation Section -->
-        <section id="key-generation">
-            <h2>Key Generation</h2>
-            <button id="generateKeys">Generate Keys</button>
-            <p id="keyStatus"></p>
-        </section>
+    <section>
+        <h3>Sign Message</h3>
+        <textarea id="message" placeholder="Enter message to sign"></textarea>
+        <button id="signMessage">Sign Message</button>
 
-        <!-- Sign Message Section -->
-        <section id="sign-message">
-            <h2>Sign Message</h2>
-            <textarea id="message" placeholder="Enter your message to sign"></textarea>
-            <button id="signMessage">Sign Message</button>
-            <h3>Signature:</h3>
-            <textarea id="signatureResult" readonly placeholder="Signature will appear here"></textarea>
-        </section>
+        <h3>Signature:</h3>
+        <textarea id="signatureResult" readonly="" placeholder="Signature will appear here"></textarea>
+    </section>
 
-        <!-- Verify Signature Section -->
-        <section id="verify-signature">
-            <h2>Verify Signature</h2>
-            <textarea id="verifyMessage" placeholder="Enter message to verify"></textarea>
-            <textarea id="signatureInput" placeholder="Enter the signature to verify"></textarea>
-            <button id="verifySignature">Verify Signature</button>
-            <p id="verificationResult"></p> <!-- Message indicating valid/invalid signature -->
-        </section>
-    </div>
+    <section>
+        <h3>Verify Signature</h3>
+        <textarea id="verifyMessage" placeholder="Enter original message"></textarea>
+        <textarea id="signatureInput" placeholder="Enter signature"></textarea>
+        <button id="verifySignature">Verify Signature</button>
+        <p id="verificationResult"></p>
+    </section>
+</div>
 
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
-</body>
-</html>
+<style>
+/* Scope everything inside .ecdsa-tool */
+.ecdsa-tool section {
+    margin-bottom: 40px;
+}
+
+.ecdsa-tool .tool-heading {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.ecdsa-tool textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.ecdsa-tool button {
+    padding: 12px 24px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.ecdsa-tool button:hover {
+    background: #333;
+}
+
+.ecdsa-tool p {
+    font-size: 16px;
+    color: #444;
+}
+</style>
