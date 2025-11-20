@@ -3,48 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECDSA Digital Signature Tool</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Elliptic Curve Digital Signature Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 3rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            color: #0b5aa0;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 70%;
+            object-fit: fit;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #495057;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .nav-links a:hover:not(.active) {
+            color: #4a90e2;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: #495057;
+        }
+
+        .user-name {
+            color: #495057;
+        }
+
+        .contact-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #357abd;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: #212529;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 .highlight {
+            color: #1b508e;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .curves-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .curves-section {
+            padding: 4rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            color: #212529;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .curves-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .curve-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curve-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .curve-image {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.35rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .curve-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: fit;
+        }
+
+        .curve-card h3 {
+            font-size: 1.75rem;
+            color: #212529;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .curve-card p {
+            font-size: 1rem;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav id="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/p256">p-256 Curve</a></li>
-            <li><a href="/p384">p-384 Curve</a></li>
-            <li><a href="/p521">p-521 Curve</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="/static/ecc-logo.png" alt="Logo" class="logo-icon">
+            </div>
+            <span>ECDSA</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="p256">P-256</a></li>
+            <li><a href="p384">P-384</a></li>
+            <li><a href="p521">P-521</a></li>
+            <li><a href="contact">Contact us</a></li>
         </ul>
+        
+        <div class="nav-right">
+            <button class="icon-btn">🛒</button>
+            <button class="icon-btn">🔍</button>
+            <span class="user-name">Maram Shatila ▼</span>
+            
+        </div>
     </nav>
 
-    <div class="container">
-        <h1>Welcome to the ECDSA Digital Signature Tool</h1>
-
-        <!-- Boxes for each curve -->
-        <div class="curve-boxes">
-            <div class="curve-box" id="p256-box">
-                <a href="/p256" class="curve-title">P-256 Curve</a>
-                <p class="curve-desc">
-                P-256 is the most widely used elliptic curve. It offers strong security while remaining very fast, making it ideal for websites, mobile apps, and general-purpose cryptography.
-                </p>
-            </div>
-
-            <div class="curve-box" id="p384-box">
-                <a href="/p384" class="curve-title">P-384 Curve</a>
-                <p class="curve-desc"> P-384 provides higher security than P-256. It is used when extra protection is required, such as government systems or long-term data security, while still maintaining good performance.
-                </p>
-            </div>
-            <div class="curve-box" id="p521-box">
-                <a href="/p521" class="curve-title">P-521 Curve</a>
-                <p class="curve-desc">
-                    P-521 offers the highest security level among the standard curves. It is chosen for highly sensitive environments where maximum cryptographic strength is more important than speed.
-                </p>
-            </div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The <span class="highlight">ultimate</span> Elliptic Curve Digital Signature Tool</h1>
+            <p>Exploring ECDSA by generating keys, signing messages, and verifying signatures on different elliptic curves</p>
         </div>
-    </div>
+        
+        <div class="hero-image">
+            <img src="/static/ecc-image.png" alt="Elliptic Curve Cryptography">
+        </div>
+    </section>
 
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <section class="curves-section">
+        <h2 class="section-title">Elliptic Curve Types</h2>
+        <div class="curves-grid">
+            <a href="p256" class="curve-card">
+                <div class="curve-image">
+                    <img src="/static/p256-curve.png" alt="P256 Curve">
+                </div>
+                <h3>P256</h3>
+                <p>P-256 is the most widely used elliptic curve. It offers strong security while remaining very fast, making it ideal for websites, mobile apps, and general-purpose cryptography.</p>
+            </a>
+            
+            <a href="p384" class="curve-card">
+                <div class="curve-image">
+                    <img src="/static/p384-curve.png" alt="P384 Curve">
+                </div>
+                <h3>P384</h3>
+                <p>P-384 provides higher security than P-256. It is used when extra protection is required, such as government systems or long-term data security, while still maintaining good performance</p>
+            </a>
+            
+            <a href="p521" class="curve-card">
+                <div class="curve-image">
+                    <img src="/static/p521-curve.png" alt="P521 Curve">
+                </div>
+                <h3>P521</h3>
+                <p>P-521 offers the highest security level among the standard curves. It is chosen for highly sensitive environments where maximum cryptographic strength is more important than speed.</p>
+            </a>
+        </div>
+    </section
 </body>
 </html>

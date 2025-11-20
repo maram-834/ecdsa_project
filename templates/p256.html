@@ -3,85 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECDSA Digital Signature Tool</title>
+    <title>ECDSA P-256 Curve</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8f9fa;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 3rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            color: #0b5aa0;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 70%;
+            object-fit: fit;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #495057;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .nav-links a:hover:not(.active) {
+            color: #4a90e2;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: #495057;
+        }
+
+        .user-name {
+            color: #495057;
+        }
+
+        .contact-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #357abd;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-size: 1.75rem;
+            color: #212529;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .status-message {
+            margin-top: 1rem;
+            color: #28a745;
+            font-size: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1.25rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            background: white;
+            color: #495057;
+        }
+
+        textarea::placeholder {
+            color: #adb5bd;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-label {
+            font-size: 2rem;
+            color: #212529;
+            margin: 2rem 0 1rem 0;
+            font-weight: 700;
+        }
+
+        footer {
+            background: #f1f3f5;
+            padding: 2rem;
+            text-align: center;
+            color: #6c757d;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 968px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="ecdsa-tool container">
-    <h1 class="tool-heading">
-        ECDSA <span id="curveLabel">P-256 Curve</span>
-    </h1>
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="/static/ecc-logo.png" alt="Logo" class="logo-icon">
+            </div>
+            <span>ECDSA</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/p256" class="active">P-256</a></li>
+            <li><a href="/p384">P-384</a></li>
+            <li><a href="/p521">P-521</a></li>
+            <li><a href="/contact">Contact us</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <button class="icon-btn">🛒</button>
+            <button class="icon-btn">🔍</button>
+            <span class="user-name">Maram Shatila ▼</span>
+        </div>
+    </nav>
 
-    <section>
-        <h2>Key Generation</h2>
-        <button id="generateKeys">Generate Keys</button><br><br>
-        <p id="keyStatus"></p>
-    </section>
+    <div class="container">
+        <h1 class="page-title">ECDSA P-256 Curve</h1>
 
-    <section>
-        <h2>Sign Message</h2>
-        <textarea id="message" placeholder="Enter message to sign"></textarea>
-        <button id="signMessage">Sign Message</button>
+        <!-- Key Generation Section -->
+        <div class="section">
+            <h2>Key Generation</h2>
+            <button class="btn" id="generateKeys">Generate Keys</button>
+            <p class="status-message" id="keyStatus"></p>
+        </div>
 
-        <h2>Signature:</h2>
-        <textarea id="signatureResult" readonly="" placeholder="Signature will appear here"></textarea>
-    </section>
+        <!-- Sign Message Section -->
+        <div class="section">
+            <h2>Sign Message</h2>
+            <div class="input-group">
+                <textarea id="message" placeholder="Enter message to sign"></textarea>
+            </div>
+            <button class="btn" id="signMessage">Sign Message</button>
+            
+            <h2 class="signature-label">Signature:</h2>
+            <div class="input-group">
+                <textarea id="signatureResult" placeholder="Signature will appear here" readonly></textarea>
+            </div>
+        </div>
 
-    <section>
-        <h2>Verify Signature</h2>
-        <textarea id="verifyMessage" placeholder="Enter original message"></textarea>
-        <textarea id="signatureInput" placeholder="Enter signature"></textarea>
-        <button id="verifySignature">Verify Signature</button>
-        <p id="verificationResult"></p>
-    </section>
+        <!-- Verify Signature Section -->
+        <div class="section">
+            <h2>Verify Signature</h2>
+            <div class="input-group">
+                <textarea id="verifyMessage" placeholder="Enter original message"></textarea>
+            </div>
+            <div class="input-group">
+                <textarea id="signatureInput" placeholder="Enter signature"></textarea>
+            </div>
+            <button class="btn" id="verifySignature">Verify Signature</button>
+            <p class="status-message" id="verificationResult"></p>
+        </div>
     </div>
-<style>
-/* Scope everything inside .ecdsa-tool */
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-.ecdsa-tool section {
-    margin-bottom: 40px;
-}
 
-.ecdsa-tool .tool-heading {
-    color: #3498db;
-    text-align: center;
-    margin-bottom: 25px;
-}
+    <footer>
+        Copyright © Company name
+    </footer>
 
-.ecdsa-tool textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    margin-top: 8px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
+    <script>
+        document.getElementById("generateKeys").addEventListener("click", function() {
+            fetch('/generate_keys/p256')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("keyStatus").textContent = data.message;
+                });
+        });
 
-.ecdsa-tool button {
-    padding: 12px 24px;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 12px;
-    margin-bottom: 15px;
-    font-size: 16px;
-}
+        document.getElementById("signMessage").addEventListener("click", function() {
+            const message = document.getElementById("message").value;
 
-.ecdsa-tool button:hover {
-    background: #333;
-}
+            if (!message) {
+                alert("Please enter a message.");
+                return;
+            }
 
-.ecdsa-tool p {
-    font-size: 16px;
-    color: #444;
-}
-</style>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+            fetch('/sign_message/p256', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("signatureResult").value = data.signature;
+            });
+        });
+
+        document.getElementById("verifySignature").addEventListener("click", function() {
+            const message = document.getElementById("verifyMessage").value;
+            const signature = document.getElementById("signatureInput").value;
+
+            if (!message || !signature) {
+                alert("Please enter both message and signature.");
+                return;
+            }
+
+            fetch('/verify_signature/p256', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, signature })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("verificationResult").textContent = data.message;
+            });
+        });
+    </script>
 </body>
 </html>
